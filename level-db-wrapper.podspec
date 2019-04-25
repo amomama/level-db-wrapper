@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
     Level DB storage is used as a pod instead of local library. Also bulk key fetch is available. 
                        DESC
 
-  s.homepage         = ''https://github.com/amomama/level-db-wrapper.git'
+  s.homepage         = 'https://github.com/amomama/level-db-wrapper.git'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ivan-genesis' => 'ivan.sinitsa@gen.tech' }
   s.source           = { :git => 'https://github.com/amomama/level-db-wrapper.git', :tag => s.version.to_s }
