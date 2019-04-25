@@ -1,0 +1,7 @@
+use_frameworks!
+
+platform :ios, '10.3'
+
+target 'level-db-wrapper_Example' do
+  pod 'level-db-wrapper', :path => '../'
+end

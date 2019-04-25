@@ -1,0 +1,6 @@
+framework module level_db_wrapper {
+  umbrella header "level-db-wrapper-umbrella.h"
+
+  export *
+  module * { export * }
+}

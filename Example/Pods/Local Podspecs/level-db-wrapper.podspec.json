@@ -1,0 +1,35 @@
+{
+  "name": "level-db-wrapper",
+  "version": "0.1.0",
+  "summary": "A short description of level-db-wrapper.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/ivan-genesis/level-db-wrapper",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ivan-genesis": "ivan.sinitsa@gen.tech"
+  },
+  "source": {
+    "git": "https://github.com/ivan-genesis/level-db-wrapper.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.3"
+  },
+  "source_files": [
+    "Classes",
+    "level-db-wrapper/LevelDBForSwift/**/*.{swift,hpp,cpp,h,m}"
+  ],
+  "public_header_files": [
+    "level-db-wrapper/LevelDBForSwift/LevelDBForSwift/LevelDBForSwift.h",
+    "level-db-wrapper/LevelDBForSwift/LevelDBForSwift/src/Wrapper.hpp"
+  ],
+  "vendored_libraries": "level-db-wrapper/LevelDBForSwift/leveldb/*.a",
+  "dependencies": {
+    "leveldb-library": [
+
+    ]
+  }
+}
