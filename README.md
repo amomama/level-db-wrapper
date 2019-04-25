@@ -22,7 +22,7 @@ pod 'level-db-wrapper'
 
 ## Author
 
-ivan-genesis, ivan.sinitsa@gen.tech
+https://github.com/jim-binea/LevelDB-Swift + ivan.sinitsa@gen.tech
 
 ## License
 
