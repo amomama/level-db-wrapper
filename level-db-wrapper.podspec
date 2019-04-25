@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'level-db-wrapper'
-  s.version          = '0.1.0'
+  s.version          = '1.0.0'
   s.summary          = 'Wrapper is used to get/set key-value data from leveldb storage.'
 
 # This description is used to generate tags and improve search results.
