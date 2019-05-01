@@ -29,7 +29,6 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '10.3'
   s.platform     = :ios, "10.3"
-  s.swift_version = '5.0'
 
   s.source_files  = "Classes", "level-db-wrapper/LevelDBForSwift/**/*.{swift,hpp,cpp,h,m}"
   s.public_header_files = "level-db-wrapper/LevelDBForSwift/LevelDBForSwift/LevelDBForSwift.h", "level-db-wrapper/LevelDBForSwift/LevelDBForSwift/src/Wrapper.hpp"
