@@ -96,7 +96,7 @@ public extension LevelDB {
             for i in 0..<buffer.count {
                 var pointer = buffer[i]
                 if let basePointer = pointer.basePtr {
-                    if let key = String(cString: basePointer, encoding: .utf8) {
+                    if let key = String(cString: basePointer, encoding: .utf8), !key.isEmpty {
                         keys.append(key)
                         c_FreeCString(&pointer)
                     }
