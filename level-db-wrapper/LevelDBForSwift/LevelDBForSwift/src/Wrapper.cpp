@@ -52,7 +52,7 @@ _CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key)
     leveldb::ReadOptions readOptions;
     leveldb::Status status = _db->Get(readOptions, keySlice, &valueString);
     if (!status.ok()) {
-        printf("%s:%d c_leveldbSetValue error", __FILE__, __LINE__);
+        printf("%s:%d c_leveldbGetValue error", __FILE__, __LINE__);
     }
     long size = valueString.size();
     char* p = (char*)malloc(size * sizeof(char));
@@ -107,7 +107,7 @@ bool c_leveldbDeleteValue(void* leveldb, struct _CString_ key)
     leveldb::WriteOptions writeOption;
     leveldb::Status status = _db->Delete(writeOption, keySlice);
     if (!status.ok()) {
-        printf("%s:%d c_leveldbSetValue error", __FILE__, __LINE__);
+        printf("%s:%d c_leveldbDeleteValue error", __FILE__, __LINE__);
     }
     return status.ok();
 }
