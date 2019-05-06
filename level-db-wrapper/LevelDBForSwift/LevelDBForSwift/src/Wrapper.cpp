@@ -10,6 +10,7 @@
 #include "db.h"
 
 #define MAX_BATCH_SIZE 10
+#define PRINT_LOGS false
 
 void* c_creatLeveldb(char* path) // wrapper function
 {
@@ -39,7 +40,7 @@ void c_leveldbSetValue(void* leveldb, _CString_ key, _CString_ value)
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::WriteOptions writeOption;
     leveldb::Status status = _db->Put(writeOption, keySlice, valueSlice);
-    if (status.ok() != true) {
+    if (PRINT_LOGS && status.ok() != true) {
         printf("%s:%d c_leveldbSetValue error: %s", __FILE__, __LINE__, status.ToString().c_str());
     }
 }
@@ -51,7 +52,7 @@ _CString_ c_leveldbGetValue(void* leveldb, char* str, long length)
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::ReadOptions readOptions;
     leveldb::Status status = _db->Get(readOptions, keySlice, &valueString);
-    if (!status.ok()) {
+    if (PRINT_LOGS && status.ok() != true) {
         printf("%s:%d c_leveldbGetValue error: %s", __FILE__, __LINE__, status.ToString().c_str());
     }
     long size = valueString.size();
@@ -115,7 +116,7 @@ bool c_leveldbDeleteValue(void* leveldb, struct _CString_ key)
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::WriteOptions writeOption;
     leveldb::Status status = _db->Delete(writeOption, keySlice);
-    if (!status.ok()) {
+    if (PRINT_LOGS && status.ok() != true) {
         printf("%s:%d c_leveldbDeleteValue error: %s", __FILE__, __LINE__, status.ToString().c_str());
     }
     return status.ok();

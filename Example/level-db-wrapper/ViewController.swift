@@ -24,11 +24,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func readKeys() {
-        let keys = db.collectKeys(offset: 0)
-        for key in keys {
-            print("Read key: \(key)")
-            let _ = db.delete(key: key)
-        }
+        let a = db["aaaa"]
+        print(a)
+//        let keys = db.collectKeys(offset: 0)
+//        for key in keys {
+//            print("Read key: \(key)")
+//            let _ = db.delete(key: key)
+//        }
     }
     
     @IBAction func storeKeys() {
