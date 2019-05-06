@@ -123,7 +123,7 @@ bool c_leveldbDeleteValue(void* leveldb, struct _CString_ key)
 void c_FreeCString(struct _CString_* string)
 {
     if (string->basePtr != NULL) {
-        free(string->basePtr);
+        delete string->basePtr;
         string->basePtr = NULL;
     }
 }
