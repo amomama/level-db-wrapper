@@ -40,7 +40,7 @@ void c_leveldbSetValue(void* leveldb, _CString_ key, _CString_ value)
     leveldb::WriteOptions writeOption;
     leveldb::Status status = _db->Put(writeOption, keySlice, valueSlice);
     if (status.ok() != true) {
-        printf("%s:%d c_leveldbSetValue error", __FILE__, __LINE__);
+        printf("%s:%d c_leveldbSetValue error: %s", __FILE__, __LINE__, status.ToString().c_str());
     }
 }
 
@@ -52,12 +52,10 @@ _CString_ c_leveldbGetValue(void* leveldb, char* str, long length)
     leveldb::ReadOptions readOptions;
     leveldb::Status status = _db->Get(readOptions, keySlice, &valueString);
     if (!status.ok()) {
-        printf("%s:%d c_leveldbGetValue error", __FILE__, __LINE__);
+        printf("%s:%d c_leveldbGetValue error: %s", __FILE__, __LINE__, status.ToString().c_str());
     }
     long size = valueString.size();
-    _CString_ result;
-    result.basePtr = NULL;
-    result.length = 0;
+    _CString_ result = _CString_{ NULL, 0 };
     
     if (size > 0) {
         char* p = (char*)malloc(size * sizeof(char));
@@ -118,7 +116,7 @@ bool c_leveldbDeleteValue(void* leveldb, struct _CString_ key)
     leveldb::WriteOptions writeOption;
     leveldb::Status status = _db->Delete(writeOption, keySlice);
     if (!status.ok()) {
-        printf("%s:%d c_leveldbDeleteValue error", __FILE__, __LINE__);
+        printf("%s:%d c_leveldbDeleteValue error: %s", __FILE__, __LINE__, status.ToString().c_str());
     }
     return status.ok();
 }
