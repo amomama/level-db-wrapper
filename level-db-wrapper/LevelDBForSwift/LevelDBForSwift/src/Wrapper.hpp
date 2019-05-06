@@ -27,6 +27,7 @@ extern "C" {
     int c_batchSize();
     
     void c_FreeCString(struct _CString_* string);
+    void c_FreeCStringArray(struct _CString_* array);
 #ifdef __cplusplus
 }
 #endif

@@ -97,9 +97,9 @@ _CString_* c_leveldbGetValues(void* leveldb, int offset)
             std::strcpy(p, keyString.c_str());
             result.basePtr = p;
             result.length = size;
-            items[itemCounter] = result;
             itemCounter += 1;
         }
+        items[itemCounter] = result;
     }
     
     assert(it->status().ok());
@@ -125,6 +125,13 @@ void c_FreeCString(struct _CString_* string)
     if (string->basePtr != NULL) {
         delete string->basePtr;
         string->basePtr = NULL;
+    }
+}
+
+void c_FreeCStringArray(struct _CString_* array) {
+    for (int i = 0; i < MAX_BATCH_SIZE; i++) {
+        _CString_ item = array[i];
+        c_FreeCString(&item);
     }
 }
 

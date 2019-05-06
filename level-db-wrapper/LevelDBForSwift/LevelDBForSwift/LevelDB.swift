@@ -95,18 +95,20 @@ public extension LevelDB {
         
         let limit = Int(c_batchSize())
         let offset = Int32(offset)
+        
         if let items = c_leveldbGetValues(db, offset) {
             let buffer = UnsafeBufferPointer(start: items, count: limit)
             for i in 0..<buffer.count {
-                var pointer = buffer[i]
+                let pointer = buffer[i]
                 if let basePointer = pointer.basePtr {
                     if let key = String(cString: basePointer, encoding: .utf8), !key.isEmpty {
                         keys.append(key)
-                        c_FreeCString(&pointer)
                     }
                 }
             }
+            c_FreeCStringArray(items);
         }
+        
         return keys
     }
     

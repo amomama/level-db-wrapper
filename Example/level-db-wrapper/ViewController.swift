@@ -40,7 +40,7 @@ class ViewController: UIViewController {
             
             db[key] = value
             
-            print("Write key: \(key)")
+            //print("Write key: \(key)")
         }
         
         self.click += 1
