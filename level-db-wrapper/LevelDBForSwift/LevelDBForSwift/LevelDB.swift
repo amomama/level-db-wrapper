@@ -37,8 +37,7 @@ open class LevelDB {
             guard var keyChar: [CChar] = key.cString(using: .utf8) else {
                 return nil
             }
-            var keyCstring = _CString_(basePtr: &keyChar, length: keyChar.count)
-            var valueString = c_leveldbGetValue(db, &keyCstring)
+            var valueString = c_leveldbGetValue(db, &keyChar, keyChar.count)
             let string = String.init(cString: valueString.basePtr)
             c_FreeCString(&valueString)
             return string
@@ -131,8 +130,7 @@ public extension LevelDB {
         guard var keyChar: [CChar] = key.cString(using: .utf8) else {
             return nil
         }
-        var keyCstring = _CString_(basePtr: &keyChar, length: keyChar.count)
-        var valueString = c_leveldbGetValue(db, &keyCstring)
+        var valueString = c_leveldbGetValue(db, &keyChar, keyChar.count)
         let value = String(cString: valueString.basePtr)
         c_FreeCString(&valueString)
         return value
@@ -164,8 +162,7 @@ public extension LevelDB {
         guard var keyChar: [CChar] = key.cString(using: .utf8) else {
             return nil
         }
-        var keyCstring = _CString_(basePtr: &keyChar, length: keyChar.count)
-        var valueString = c_leveldbGetValue(db, &keyCstring)
+        var valueString = c_leveldbGetValue(db, &keyChar, keyChar.count)
         let data = Data.init(bytes: valueString.basePtr, count: valueString.length)
         c_FreeCString(&valueString)
         return data

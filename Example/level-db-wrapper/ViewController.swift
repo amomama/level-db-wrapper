@@ -11,7 +11,8 @@ import level_db_wrapper
 
 class ViewController: UIViewController {
     
-    private let db = LevelDB(name: "testDB")
+    let db = LevelDB(name: "testDB")
+    var click: Int = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,17 +24,26 @@ class ViewController: UIViewController {
     }
     
     @IBAction func storeAndReadKeys() {
-        db["aaaa"] = "aaaa1"
-        db["bbbb"] = "bbbb1"
-        db["cccc"] = "cccc1"
-        db["dddd"] = "dddd1"
-        db["eeee"] = "eeee1"
-        db["ffff"] = "ffff1"
         
-        let keys = db.collectKeys(offset: 0)
-        for key in keys {
-            print("key: \(key)")
+        let key = "\(self.click)"
+        
+        
+        for i in 0..<1000 {
+            let key = "key" + key + "\(i + 1)"
+            let value = "value" + key
+            
+            db[key] = value
+            
+            let keys = db.collectKeys(offset: 0)
+            for key in keys {
+                print("key: \(key)")
+                let _ = db.delete(key: key)
+            }
         }
+        
+        
+        
+        self.click += 1
     }
 
 }

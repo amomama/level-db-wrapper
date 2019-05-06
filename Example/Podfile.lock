@@ -1,5 +1,5 @@
 PODS:
-  - level-db-wrapper (1.0.0):
+  - level-db-wrapper (1.0.3):
     - leveldb-library
   - leveldb-library (1.20)
 
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  level-db-wrapper: d30d21f1a363a377a8c2a31f4fd5f9160f2bfca7
+  level-db-wrapper: d58d419096c4f7fd081a07ef9821f7df640d7702
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
 
 PODFILE CHECKSUM: c8b4c4a628f384764109e0c592ca102fe40b9f91

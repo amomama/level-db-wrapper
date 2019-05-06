@@ -21,7 +21,7 @@ extern "C" {
     void* c_creatLeveldb(char* path);
     void c_closeLeveldb(void* leveldb);
     void c_leveldbSetValue(void* leveldb, struct _CString_ key, struct _CString_ value);
-    struct _CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key);
+    struct _CString_ c_leveldbGetValue(void* leveldb, char* str, long length);
     struct _CString_* c_leveldbGetValues(void* leveldb, int offset);
     bool c_leveldbDeleteValue(void* leveldb, struct _CString_ key);
     int c_batchSize();

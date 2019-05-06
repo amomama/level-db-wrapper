@@ -44,9 +44,9 @@ void c_leveldbSetValue(void* leveldb, _CString_ key, _CString_ value)
     }
 }
 
-_CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key)
+_CString_ c_leveldbGetValue(void* leveldb, char* str, long length)
 {
-    leveldb::Slice keySlice = leveldb::Slice(key->basePtr, key->length);
+    leveldb::Slice keySlice = leveldb::Slice(str, length);
     std::string valueString;
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::ReadOptions readOptions;
