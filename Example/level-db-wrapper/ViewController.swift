@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     @IBAction func storeKeys() {
         let key = "\(self.click)"
         
-        for i in 0..<10000 {
+        for i in 0..<1 {
             let key = "key" + key + "\(i + 1)"
             let value = "value" + key
             

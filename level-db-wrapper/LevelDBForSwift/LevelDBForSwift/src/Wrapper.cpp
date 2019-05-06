@@ -71,6 +71,11 @@ _CString_ c_leveldbGetValue(void* leveldb, char* str, long length)
 _CString_* c_leveldbGetValues(void* leveldb, int offset)
 {
     static _CString_ items[MAX_BATCH_SIZE];
+    
+    for (int i = 0; i < c_batchSize(); i++) {
+        items[i] = _CString_{NULL, 0};
+    }
+    
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::Iterator *it = _db->NewIterator(leveldb::ReadOptions());
     
@@ -82,15 +87,13 @@ _CString_* c_leveldbGetValues(void* leveldb, int offset)
             continue;
         }
         
-        if (itemCounter >= MAX_BATCH_SIZE) {
+        if (itemCounter >= c_batchSize()) {
             break;
         }
         
         std::string keyString = it->key().ToString();
         long size = keyString.size();
-        _CString_ result;
-        result.basePtr = NULL;
-        result.length = 0;
+        _CString_ result = _CString_{ NULL, 0 };
         
         if (size > 0) {
             char* p = (char*)malloc(size * sizeof(char));
@@ -122,14 +125,14 @@ bool c_leveldbDeleteValue(void* leveldb, struct _CString_ key)
 
 void c_FreeCString(struct _CString_* string)
 {
-    if (string->basePtr != NULL) {
+    if (string->basePtr) {
         delete string->basePtr;
         string->basePtr = NULL;
     }
 }
 
 void c_FreeCStringArray(struct _CString_* array) {
-    for (int i = 0; i < MAX_BATCH_SIZE; i++) {
+    for (int i = 0; i < c_batchSize(); i++) {
         _CString_ item = array[i];
         c_FreeCString(&item);
     }
