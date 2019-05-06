@@ -23,20 +23,39 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L7I-w0-IPd">
                                 <rect key="frame" x="114" y="140" width="147" height="50"/>
-                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="147" id="XEg-8d-5T8"/>
                                     <constraint firstAttribute="height" constant="50" id="eGm-ya-JXx"/>
                                 </constraints>
-                                <state key="normal" title="Test"/>
+                                <state key="normal" title="Write">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
-                                    <action selector="storeAndReadKeys" destination="vXZ-lx-hvc" eventType="touchUpInside" id="TKH-gN-R8i"/>
+                                    <action selector="storeKeys" destination="vXZ-lx-hvc" eventType="touchUpInside" id="DUB-M1-Npi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WoN-aF-MCo">
+                                <rect key="frame" x="114" y="243" width="147" height="50"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Uhm-iE-9kh"/>
+                                </constraints>
+                                <state key="normal" title="Read">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="readKeys" destination="vXZ-lx-hvc" eventType="touchUpInside" id="IKN-7L-5tz"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="WoN-aF-MCo" firstAttribute="trailing" secondItem="L7I-w0-IPd" secondAttribute="trailing" id="4Ws-fu-0qY"/>
                             <constraint firstItem="L7I-w0-IPd" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="120" id="9qy-di-WOM"/>
+                            <constraint firstItem="WoN-aF-MCo" firstAttribute="leading" secondItem="L7I-w0-IPd" secondAttribute="leading" id="Paj-qG-ePC"/>
+                            <constraint firstItem="WoN-aF-MCo" firstAttribute="centerX" secondItem="L7I-w0-IPd" secondAttribute="centerX" id="isp-ui-AMi"/>
+                            <constraint firstItem="WoN-aF-MCo" firstAttribute="top" secondItem="L7I-w0-IPd" secondAttribute="bottom" constant="53" id="nCI-ZT-GgF"/>
                             <constraint firstItem="L7I-w0-IPd" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="wL8-d3-nF0"/>
                         </constraints>
                     </view>

@@ -39,8 +39,11 @@ open class LevelDB {
             }
             var valueString = c_leveldbGetValue(db, &keyChar, keyChar.count)
             let string = String.init(cString: valueString.basePtr)
-            c_FreeCString(&valueString)
-            return string
+            if string.count > 0 {
+                c_FreeCString(&valueString)
+                return string
+            }
+            return nil
         }
         set {
             guard let db = self.db else {
@@ -132,8 +135,11 @@ public extension LevelDB {
         }
         var valueString = c_leveldbGetValue(db, &keyChar, keyChar.count)
         let value = String(cString: valueString.basePtr)
-        c_FreeCString(&valueString)
-        return value
+        if value.count > 0 {
+            c_FreeCString(&valueString)
+            return value
+        }
+        return nil
     }
     
     //MARK: - Data
@@ -141,8 +147,7 @@ public extension LevelDB {
         let basePointer = UnsafeMutablePointer<Int8>.allocate(capacity: value.count)
         basePointer.initialize(repeating: 0, count: value.count)
         let pointer = UnsafeMutableBufferPointer<Int8>.init(start: basePointer, count: value.count)
-        //        value.copyBytes(to: basePointer, count: value.count)
-        _ = value.copyBytes(to: pointer)
+        _ = value.copyBytes(to: pointer, count: value.count)
         guard let db = self.db else {
             return
         }
@@ -164,8 +169,11 @@ public extension LevelDB {
         }
         var valueString = c_leveldbGetValue(db, &keyChar, keyChar.count)
         let data = Data.init(bytes: valueString.basePtr, count: valueString.length)
-        c_FreeCString(&valueString)
-        return data
+        if !data.isEmpty {
+            c_FreeCString(&valueString)
+            return data
+        }
+        return nil
     }
     
     //MARK: - Int

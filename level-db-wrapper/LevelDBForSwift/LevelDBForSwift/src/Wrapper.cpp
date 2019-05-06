@@ -55,11 +55,16 @@ _CString_ c_leveldbGetValue(void* leveldb, char* str, long length)
         printf("%s:%d c_leveldbGetValue error", __FILE__, __LINE__);
     }
     long size = valueString.size();
-    char* p = (char*)malloc(size * sizeof(char));
-    std::strcpy(p, valueString.c_str());
     _CString_ result;
-    result.basePtr = p;
-    result.length = size;
+    result.basePtr = NULL;
+    result.length = 0;
+    
+    if (size > 0) {
+        char* p = (char*)malloc(size * sizeof(char));
+        std::strcpy(p, valueString.c_str());
+        result.basePtr = p;
+        result.length = size;
+    }
     return result;
 }
 
@@ -83,15 +88,18 @@ _CString_* c_leveldbGetValues(void* leveldb, int offset)
         
         std::string keyString = it->key().ToString();
         long size = keyString.size();
-        char* p = (char*)malloc(size * sizeof(char));
-        std::strcpy(p, keyString.c_str());
-        
         _CString_ result;
-        result.basePtr = p;
-        result.length = size;
-        items[itemCounter] = result;
+        result.basePtr = NULL;
+        result.length = 0;
         
-        itemCounter += 1;
+        if (size > 0) {
+            char* p = (char*)malloc(size * sizeof(char));
+            std::strcpy(p, keyString.c_str());
+            result.basePtr = p;
+            result.length = size;
+            items[itemCounter] = result;
+            itemCounter += 1;
+        }
     }
     
     assert(it->status().ok());
@@ -114,8 +122,10 @@ bool c_leveldbDeleteValue(void* leveldb, struct _CString_ key)
 
 void c_FreeCString(struct _CString_* string)
 {
-    free(string->basePtr);
-    string->basePtr = NULL;
+    if (string->basePtr != NULL) {
+        free(string->basePtr);
+        string->basePtr = NULL;
+    }
 }
 
 int c_batchSize() {

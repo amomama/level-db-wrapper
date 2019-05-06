@@ -23,25 +23,25 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func storeAndReadKeys() {
-        
+    @IBAction func readKeys() {
+        let keys = db.collectKeys(offset: 0)
+        for key in keys {
+            print("Read key: \(key)")
+            let _ = db.delete(key: key)
+        }
+    }
+    
+    @IBAction func storeKeys() {
         let key = "\(self.click)"
         
-        
-        for i in 0..<1000 {
+        for i in 0..<10000 {
             let key = "key" + key + "\(i + 1)"
             let value = "value" + key
             
             db[key] = value
             
-            let keys = db.collectKeys(offset: 0)
-            for key in keys {
-                print("key: \(key)")
-                let _ = db.delete(key: key)
-            }
+            print("Write key: \(key)")
         }
-        
-        
         
         self.click += 1
     }
