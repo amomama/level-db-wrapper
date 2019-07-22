@@ -9,7 +9,7 @@
 #include "Wrapper.hpp"
 #include "db.h"
 
-#define MAX_BATCH_SIZE 10
+#define MAX_BATCH_SIZE 20
 
 void* c_creatLeveldb(char* path) // wrapper function
 {
@@ -32,16 +32,18 @@ void c_closeLeveldb(void* leveldb)
 }
 
 
-void c_leveldbSetValue(void* leveldb, _CString_ key, _CString_ value)
+bool c_leveldbSetValue(void* leveldb, _CString_ key, _CString_ value)
 {
     leveldb::Slice keySlice = leveldb::Slice(key.basePtr, key.length);
     leveldb::Slice valueSlice = leveldb::Slice(value.basePtr, value.length);
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::WriteOptions writeOption;
     leveldb::Status status = _db->Put(writeOption, keySlice, valueSlice);
-    if (status.ok() != true) {
+    bool isValueSet = status.ok();
+    if (!isValueSet) {
         printf("%s:%d c_leveldbSetValue error", __FILE__, __LINE__);
     }
+    return isValueSet;
 }
 
 _CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key)
