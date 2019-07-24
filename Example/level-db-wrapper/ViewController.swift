@@ -32,11 +32,19 @@ class ViewController: UIViewController {
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
                 for key in keys {
-                    self?.db.delete(key: key)
+                    let _ = self?.db.delete(key: key)
                     print("del key: \(key)")
                 }
             }
         }
+        
+        // test for non-existing value
+        let a = self.db["aaaasdasdasdasdasd"]
+        print(a ?? "")
+        
+        // test for existing value
+        let b = self.db["aaaaa_1"]
+        print(b ?? "")
     }
 
 }
