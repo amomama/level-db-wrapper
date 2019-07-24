@@ -51,15 +51,20 @@ _CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key)
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::ReadOptions readOptions;
     leveldb::Status status = _db->Get(readOptions, keySlice, &valueString);
-    if (!status.ok()) {
-        printf("%s:%d c_leveldbGetValue error", __FILE__, __LINE__);
-    }
-    long size = valueString.size();
-    char* p = (char*)malloc(size * sizeof(char));
-    std::strcpy(p, valueString.c_str());
+    
     _CString_ result;
-    result.basePtr = p;
-    result.length = size;
+    result.basePtr = NULL;
+    result.length = 0;
+    
+    if (status.ok() == true) {
+        long size = valueString.size();
+        char* p = (char*)malloc(size * sizeof(char));
+        std::strcpy(p, valueString.c_str());
+        
+        result.basePtr = p;
+        result.length = size;
+    }
+    
     return result;
 }
 

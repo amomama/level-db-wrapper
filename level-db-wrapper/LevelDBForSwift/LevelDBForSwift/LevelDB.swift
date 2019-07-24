@@ -39,9 +39,13 @@ open class LevelDB {
             }
             var keyCstring = _CString_(basePtr: &keyChar, length: keyChar.count)
             var valueString = c_leveldbGetValue(db, &keyCstring)
-            let string = String.init(cString: valueString.basePtr)
-            c_FreeCString(&valueString)
-            return string
+            
+            if let pointer = valueString.basePtr {
+                let string = String(cString: pointer, encoding: .utf8)
+                c_FreeCString(&valueString)
+                return string
+            }            
+            return nil
         }
         set {
             guard let db = self.db else {
@@ -94,13 +98,17 @@ public extension LevelDB {
         if let items = c_leveldbGetValues(db, offset) {
             let buffer = UnsafeBufferPointer(start: items, count: limit)
             for i in 0..<buffer.count {
-                var pointer = buffer[i]
+                let pointer = buffer[i]
                 if let basePointer = pointer.basePtr {
                     if let key = String(cString: basePointer, encoding: .utf8), !key.isEmpty {
                         keys.append(key)
-                        c_FreeCString(&pointer)
                     }
                 }
+            }
+            
+            for i in 0..<buffer.count {
+                var pointer = buffer[i]
+                c_FreeCString(&pointer)
             }
         }
         return keys
