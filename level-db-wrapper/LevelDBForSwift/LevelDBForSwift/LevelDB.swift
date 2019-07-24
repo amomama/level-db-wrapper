@@ -10,8 +10,6 @@ import Foundation
 
 open class LevelDB {
     
-    private let numberOfSettingAttempts = 3
-    
     public private(set) var db: UnsafeMutableRawPointer?
     
     public init(filePath: String) {
@@ -59,11 +57,7 @@ open class LevelDB {
                 return
             }
             let valueCstring = _CString_(basePtr: &valueChar, length: valueChar.count)
-            for _ in 0..<self.numberOfSettingAttempts {
-                if c_leveldbSetValue(db, keyCstring, valueCstring) {
-                    return
-                }
-            }
+            c_leveldbSetValue(db, keyCstring, valueCstring)
         }
     }
     
@@ -117,23 +111,17 @@ public extension LevelDB {
     }
     
     //MARK: - String
-    @discardableResult
-    private func set(_ value: String, forKey key: String) -> Bool {
+    private func set(_ value: String, forKey key: String) {
         guard let db = self.db else {
-            return false
+            return
         }
         guard var keyChar: [CChar] = key.cString(using: .utf8), var valueChar: [CChar] = value.cString(using: .utf8) else {
-            return false
+            return
         }
         
         let keyCstring = _CString_(basePtr: &keyChar, length: keyChar.count)
         let valueCstring = _CString_(basePtr: &valueChar, length: valueChar.count)
-        for _ in 0..<self.numberOfSettingAttempts {
-            if c_leveldbSetValue(db, keyCstring, valueCstring) {
-                return true
-            }
-        }
-        return false
+        c_leveldbSetValue(db, keyCstring, valueCstring)
     }
     
     private func getString(forKey key: String) -> String? {
@@ -151,30 +139,22 @@ public extension LevelDB {
     }
     
     //MARK: - Data
-    private func set(_ value: Data, forKey key: String) -> Bool {
+    private func set(_ value: Data, forKey key: String) {
         guard let db = self.db else {
-            return false
+            return
         }
         guard var keyChar: [CChar] = key.cString(using: .utf8) else {
-            return false
+            return
         }
         
         let basePointer = UnsafeMutablePointer<Int8>.allocate(capacity: value.count)
         basePointer.initialize(repeating: 0, count: value.count)
         let pointer = UnsafeMutableBufferPointer<Int8>.init(start: basePointer, count: value.count)
-        let _ = value.copyBytes(to: pointer)
+        _ = value.copyBytes(to: pointer)
         let keyCstring = _CString_(basePtr: &keyChar, length: keyChar.count)
         let valueCstring = _CString_(basePtr: pointer.baseAddress, length: pointer.count)
-        var isValueSet = false
-        for _ in 0..<self.numberOfSettingAttempts {
-            isValueSet = c_leveldbSetValue(db, keyCstring, valueCstring)
-            if isValueSet {
-                break
-            }
-        }
-        
+        c_leveldbSetValue(db, keyCstring, valueCstring)
         basePointer.deallocate()
-        return isValueSet
     }
     
     private func getData(forKey key: String) -> Data? {

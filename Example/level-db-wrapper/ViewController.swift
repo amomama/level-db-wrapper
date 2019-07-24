@@ -16,23 +16,26 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     @IBAction func storeAndReadKeys() {
-        db["aaaa"] = "aaaa1"
-        db["bbbb"] = "bbbb1"
-        db["cccc"] = "cccc1"
-        db["dddd"] = "dddd1"
-        db["eeee"] = "eeee1"
-        db["ffff"] = "ffff1"
         
-        let keys = db.collectKeys(offset: 0)
-        for key in keys {
-            print("key: \(key)")
+        for i in 0..<1000 {
+            let key = "aaaaa_\(i)"
+            self.db[key] = key
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let keys = self?.db.collectKeys(offset: 0) else { return }
+            for key in keys {
+                print("key: \(key)")
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.5) {
+                for key in keys {
+                    self?.db.delete(key: key)
+                    print("del key: \(key)")
+                }
+            }
         }
     }
 

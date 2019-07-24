@@ -32,18 +32,16 @@ void c_closeLeveldb(void* leveldb)
 }
 
 
-bool c_leveldbSetValue(void* leveldb, _CString_ key, _CString_ value)
+void c_leveldbSetValue(void* leveldb, _CString_ key, _CString_ value)
 {
     leveldb::Slice keySlice = leveldb::Slice(key.basePtr, key.length);
     leveldb::Slice valueSlice = leveldb::Slice(value.basePtr, value.length);
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::WriteOptions writeOption;
     leveldb::Status status = _db->Put(writeOption, keySlice, valueSlice);
-    bool isValueSet = status.ok();
-    if (!isValueSet) {
+    if (status.ok() != true) {
         printf("%s:%d c_leveldbSetValue error", __FILE__, __LINE__);
     }
-    return isValueSet;
 }
 
 _CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key)

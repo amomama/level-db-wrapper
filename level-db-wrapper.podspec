@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'level-db-wrapper'
-  s.version          = '1.0.12'
+  s.version          = '1.0.13'
   s.summary          = 'Wrapper is used to get/set key-value data from leveldb storage.'
 
 # This description is used to generate tags and improve search results.
@@ -25,6 +25,7 @@ Pod::Spec.new do |s|
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'ivan-genesis' => 'ivan.sinitsa@gen.tech' }
   s.source           = { :git => 'https://github.com/amomama/level-db-wrapper.git', :tag => s.version.to_s }
+  s.swift_versions   = ['4.0', '4.2']
 
 
   s.ios.deployment_target = '10.3'
