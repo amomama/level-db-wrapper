@@ -52,17 +52,17 @@ _CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key)
     leveldb::ReadOptions readOptions;
     leveldb::Status status = _db->Get(readOptions, keySlice, &valueString);
     
-    _CString_ result;
-    result.basePtr = NULL;
-    result.length = 0;
+    _CString_ result = _CString_{ NULL, 0 };
     
     if (status.ok() == true) {
-        long size = valueString.size();
-        char* p = (char*)malloc(size * sizeof(char));
-        std::strcpy(p, valueString.c_str());
-        
-        result.basePtr = p;
-        result.length = size;
+        if (valueString.size() > 0) {
+            long size = strlen(valueString.c_str());
+            char* p = (char*)malloc(size * sizeof(char));
+            std::strcpy(p, valueString.c_str());
+            
+            result.basePtr = p;
+            result.length = size;
+        }
     }
     
     return result;
@@ -71,6 +71,10 @@ _CString_ c_leveldbGetValue(void* leveldb, struct _CString_* key)
 _CString_* c_leveldbGetValues(void* leveldb, int offset)
 {
     static _CString_ items[MAX_BATCH_SIZE];
+    for (int i = 0; i < c_batchSize(); i++) {
+        items[i] = _CString_{NULL, 0};
+    }
+    
     leveldb::DB *_db = (leveldb::DB *)leveldb;
     leveldb::Iterator *it = _db->NewIterator(leveldb::ReadOptions());
     
@@ -87,14 +91,18 @@ _CString_* c_leveldbGetValues(void* leveldb, int offset)
         }
         
         std::string keyString = it->key().ToString();
-        long size = keyString.size();
-        char* p = (char*)malloc(size * sizeof(char));
-        std::strcpy(p, keyString.c_str());
         
-        _CString_ result;
-        result.basePtr = p;
-        result.length = size;
-        items[itemCounter] = result;
+        if (keyString.size() > 0) {
+            long size = strlen(keyString.c_str());
+            
+            char* p = (char*)malloc(size * sizeof(char));
+            std::strcpy(p, keyString.c_str());
+            
+            _CString_ result = _CString_{ NULL, 0 };
+            result.basePtr = p;
+            result.length = size;
+            items[itemCounter] = result;
+        }
         
         itemCounter += 1;
     }
