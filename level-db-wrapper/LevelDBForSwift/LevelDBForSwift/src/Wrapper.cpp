@@ -72,7 +72,7 @@ _CString_* c_leveldbGetValues(void* leveldb, int offset)
 {
     static _CString_ items[MAX_BATCH_SIZE];
     for (int i = 0; i < c_batchSize(); i++) {
-        items[i] = _CString_{NULL, 0};
+        items[i] = _CString_{ NULL, 0 };
     }
     
     leveldb::DB *_db = (leveldb::DB *)leveldb;
